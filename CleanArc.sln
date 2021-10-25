@@ -11,7 +11,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CleanArch.Infra.Data", "Cle
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CleanArch.Infra.Ioc", "CleanArch.Infra.Ioc", "{D593B88D-236E-4C2B-B14B-89B3DCD88933}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CleanArch.Infra.MVC", "CleanArch.Infra.MVC", "{2A89BED2-90DE-494F-9342-9FF161398A8A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CleanArch.UI.MVC", "CleanArch.UI.MVC", "{2A89BED2-90DE-494F-9342-9FF161398A8A}"
 EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
