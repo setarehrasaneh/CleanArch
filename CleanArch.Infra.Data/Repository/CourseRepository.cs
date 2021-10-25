@@ -15,6 +15,11 @@ namespace CleanArch.Infra.Data.Repository
             this._ctx = ctx;
         }
 
+        public Course GetCourseById(int id)
+        {
+            return _ctx.Courses.Find(id);
+        }
+
         public IEnumerable<Course> GetCourses()
         {
             return _ctx.Courses;
