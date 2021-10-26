@@ -12,6 +12,9 @@ namespace CleanArch.Infra.IoC
         {
             servise.AddScoped<ICourseService, CourseService>();
             servise.AddScoped<ICourseRepository, CourseRepository>();
+
+            servise.AddScoped<IUserService, UserService>();
+            servise.AddScoped<IUserRepository, UserRepository>();
         }
     }
 }
