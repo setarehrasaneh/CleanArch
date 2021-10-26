@@ -1,10 +1,7 @@
 ﻿using CleanArch.Domain.Interfaces;
 using CleanArch.Domain.Models;
 using CleanArch.Infra.Data.Context;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace CleanArch.Infra.Data.Repository
 {
@@ -12,7 +9,7 @@ namespace CleanArch.Infra.Data.Repository
     {
         private readonly UniversityDBContext _ctx;
 
-        public UserRepository(UniversityDBContext ctx )
+        public UserRepository(UniversityDBContext ctx)
         {
             this._ctx = ctx;
         }
@@ -23,7 +20,12 @@ namespace CleanArch.Infra.Data.Repository
 
         public bool IsExistEmail(string email)
         {
-            return _ctx.Users.Any(u=> u.Email == email);
+            return _ctx.Users.Any(u => u.Email == email);
+        }
+
+        public bool ISExistUser(string email, string password)
+        {
+            return _ctx.Users.Any(u => u.Email == email && u.Password == password);
         }
 
         public bool IsExistUserName(string userName)

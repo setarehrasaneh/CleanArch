@@ -1,10 +1,12 @@
 ﻿using CleanArch.Application.Interfaces;
 using CleanArch.Application.ViewModels;
 using CleanArch.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Mvc.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly ICourseService _courseServise;

@@ -2,7 +2,11 @@
 using CleanArch.Application.Security;
 using CleanArch.Application.ViewModels;
 using CleanArch.Domain.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Security.Claims;
 
 namespace CleanArch.Mvc.Controllers
 {
@@ -15,6 +19,7 @@ namespace CleanArch.Mvc.Controllers
             this._userService = userService;
         }
 
+        #region Register
         [Route("Register")]
         public IActionResult Register()
         {
@@ -29,7 +34,7 @@ namespace CleanArch.Mvc.Controllers
             {
                 return View();
             }
-              
+
             CheckUser checkUser = _userService.CheckUser(register.UserName, register.Email);
 
             if (checkUser != CheckUser.Ok)
@@ -46,7 +51,56 @@ namespace CleanArch.Mvc.Controllers
             };
             _userService.RegisterUser(user);
 
-           return View("SuccessRegister",register);
+            return View("SuccessRegister", register);
         }
-    }
+        #endregion
+
+        #region Login
+        [Route("Login")]
+        public IActionResult Login(string ReturnUrl = "/")
+        {
+            ViewBag.Return = ReturnUrl;
+            return View();
+        }
+
+        [HttpPost]
+        [Route("Login")]
+        public IActionResult Login(LoginViewModel login, string ReturnUrl)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(login);
+            }
+            if (!_userService.IsUserExist(login.Email, login.Password))
+            {
+                ModelState.AddModelError("Email", "User Not Found...");
+                return View();
+            }
+
+            var claims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.Name,login.Email),
+                new Claim(ClaimTypes.NameIdentifier,login.Email)
+            };
+
+            var identity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(identity);
+            var properties = new AuthenticationProperties()
+            {
+                IsPersistent = login.RememberMe
+            };
+            HttpContext.SignInAsync(principal, properties);
+
+            return Redirect(ReturnUrl);
+        }
+
+
+        [Route("LogOut")]
+        public IActionResult LogOut()
+        {
+            HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return Redirect("/"); 
+        }
+            #endregion
+        }
 }

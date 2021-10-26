@@ -1,10 +1,8 @@
 ﻿using CleanArch.Application.Interfaces;
+using CleanArch.Application.Security;
 using CleanArch.Application.ViewModels;
 using CleanArch.Domain.Interfaces;
 using CleanArch.Domain.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace CleanArch.Application.Services
 {
@@ -18,10 +16,10 @@ namespace CleanArch.Application.Services
         }
         public CheckUser CheckUser(string userName, string email)
         {
-            bool isUserNameExist= _userRepository.IsExistUserName(userName);
+            bool isUserNameExist = _userRepository.IsExistUserName(userName);
             bool isEmailExist = _userRepository.IsExistEmail(email);
 
-            if(isUserNameExist & isEmailExist)
+            if (isUserNameExist & isEmailExist)
             {
                 return ViewModels.CheckUser.UserNameAndEmailNotValid;
             }
@@ -34,6 +32,11 @@ namespace CleanArch.Application.Services
                 return ViewModels.CheckUser.EmailNotValid;
             }
             return ViewModels.CheckUser.Ok;
+        }
+
+        public bool IsUserExist(string email, string password)
+        {
+            return _userRepository.ISExistUser(email, PasswordHelper.EncodePasswordMd5(password));
         }
 
         public int RegisterUser(User user)
